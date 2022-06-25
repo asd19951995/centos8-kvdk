@@ -28,7 +28,7 @@ make
 sudo make install
 
 cd /home/chengxiang/
-https://github.com/pmem/kvdk.git
+git clone https://github.com/pmem/kvdk.git
 git submodule init 
 git submodule update
 mkdir -p build && cd build
