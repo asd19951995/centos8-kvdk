@@ -11,13 +11,9 @@ sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g
 yum config-manager --add-repo /etc/yum.repos.d/CentOS-Linux-PowerTools.repo
 yum config-manager --set-enabled PowerTools
 
-yum install -y git gcc gcc-c++ autoconf automake asciidoc bash-completion xmlto libtool pkgconfig glib2 glib2-devel libfabric libfabric-devel doxygen graphviz pandoc ncurses kmod kmod-devel libudev-devel libuuid-devel json-c-devel keyutils-libs-devel gem make cmake libarchive clang-tools-extra hwloc-devel perl-Text-Diff gflags-devel
+yum install -y git gcc gcc-c++ autoconf automake asciidoc bash-completion xmlto libtool pkgconfig glib2 glib2-devel libfabric libfabric-devel doxygen graphviz pandoc ncurses kmod kmod-devel libudev-devel libuuid-devel json-c-devel keyutils-libs-devel gem make cmake libarchive clang-tools-extra hwloc-devel perl-Text-Diff gflags-devel libatomic numactl
 
-yum install -y daxctl.x86_64 daxctl-devel.x86_64 daxctl-libs.x86_64
-
-yum install -y ndctl.x86_64 ndctl-devel.x86_64 ndctl-libs.x86_64
-
-yum install -y libatomic numactl
+yum install -y daxctl.x86_64 daxctl-devel.x86_64 daxctl-libs.x86_64 ndctl.x86_64 ndctl-devel.x86_64 ndctl-libs.x86_64
 
 pip3 install GitPython
 
@@ -39,6 +35,30 @@ sudo make install
 cd /home/chengxiang/
 git clone https://github.com/pmem/kvdk.git
 cd kvdk/
+git submodule init 
+git submodule update
+mkdir -p build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+
+cd /home/chengxiang/kvdk/
+rm -rf build/
+sed -i '11s/11/17/g' CMakeLists.txt
+git submodule init 
+git submodule update
+mkdir -p build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+
+cd /home/chengxiang/kvdk/
+rm -rf build/
+sed -i '11s/17/14/g' CMakeLists.txt
+git submodule init 
+git submodule update
+mkdir -p build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+
+cd /home/chengxiang/kvdk/
+rm -rf build/
+sed -i '11s/14/11/g' CMakeLists.txt
 git submodule init 
 git submodule update
 mkdir -p build && cd build
