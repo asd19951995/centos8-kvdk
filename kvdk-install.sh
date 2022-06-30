@@ -40,6 +40,8 @@ git submodule update
 mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
 
+echo c++ 14 --------------------------------------------------------------------------------------------------------
+
 cd /home/chengxiang/kvdk/
 rm -rf build/
 sed -i '11s/11/17/g' CMakeLists.txt
@@ -48,6 +50,8 @@ git submodule update
 mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
 
+echo c++ 14 --------------------------------------------------------------------------------------------------------
+
 cd /home/chengxiang/kvdk/
 rm -rf build/
 sed -i '11s/17/14/g' CMakeLists.txt
@@ -55,6 +59,8 @@ git submodule init
 git submodule update
 mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+
+echo c++ 11 --------------------------------------------------------------------------------------------------------
 
 cd /home/chengxiang/kvdk/
 rm -rf build/
