@@ -24,6 +24,8 @@ git checkout 1.11.1
 make
 sudo make install
 
+echo cmake --------------------------------------------------------------------------------------------------------
+
 cd /home/chengxiang/
 wget https://github.com/Kitware/CMake/releases/download/v3.12.4/cmake-3.12.4.tar.gz
 tar vzxf cmake-3.12.4.tar.gz
@@ -31,6 +33,8 @@ cd cmake-3.12.4
 ./bootstrap
 make
 sudo make install
+
+echo kvdk --------------------------------------------------------------------------------------------------------
 
 cd /home/chengxiang/
 git clone https://github.com/pmem/kvdk.git
@@ -40,7 +44,7 @@ git submodule update
 mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
 
-echo c++ 14 --------------------------------------------------------------------------------------------------------
+echo c++ 17 --------------------------------------------------------------------------------------------------------
 
 cd /home/chengxiang/kvdk/
 rm -rf build/
