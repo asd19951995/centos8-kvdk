@@ -1,0 +1,56 @@
+pipeline {
+    agent {
+        label 'wf03'
+    }
+    environment {
+        centos8_result = "None"
+        previous_version = "None"
+    }
+    stages {
+        stage('centos8') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[credentialsId: 'caichengxiang-github', url: 'https://github.com/asd19951995/centos8-kvdk.git']]])
+                script{
+                    try {
+                        sh'''
+                            docker build -t kvdk-images-$BUILD_NUMBER:v1.0 .
+                            docker run -itd --name kvdk-centos8.2_$BUILD_NUMBER --privileged -v /mnt/pmem0:/mnt/pmem0 kvdk-images-$BUILD_NUMBER:v1.0 /bin/bash
+                        '''
+                        centos8_result = "Successful"
+                    }
+                    catch(Exception ex){
+                        println("Catching the exception");
+                        centos8_result = "Fail"
+                    }
+                           
+                }
+            }
+        }
+        stage(docker_log) {
+            steps {
+                script{
+                    sh'''
+                        docker logs -f --tail 1 kvdk-centos8.2_$BUILD_NUMBER
+                    '''
+                    def int a = 1
+                    def int number = BUILD_NUMBER
+                    def int previous_version = number - a
+                    // sh'''
+                    //     docker rmi -f  kvdk-images-$previous_version:v1.0
+                    //     docker rm -f kvdk-centos8.2_$previous_version
+                    //     sh(script:'/bin/python3 build/kvdk_change_version.py', returnStdout: true).trim()
+                    // '''
+                    sh(script:"docker rmi -f  kvdk-images-'$previous_version':v1.0", returnStdout: true).trim()
+                    sh(script:"docker rm -f  kvdk-centos8.2_'$previous_version'", returnStdout: true).trim()
+                }
+            }
+        }
+        stage(print) {
+            steps {
+                script {
+                    println(centos8_result) 
+                }
+            }
+        }
+    }
+}

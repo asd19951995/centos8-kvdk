@@ -1,0 +1,10 @@
+FROM 2be7850b1be4
+
+WORKDIR /home/chengxiang/
+
+ADD run_kvdk.sh /usr/bin/run_kvdk.sh
+
+RUN chmod +x /usr/bin/run_kvdk.sh
+
+ENTRYPOINT ["/usr/bin/run_kvdk.sh"]
+
